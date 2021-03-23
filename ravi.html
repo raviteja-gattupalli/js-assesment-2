@@ -1,0 +1,144 @@
+<html>
+
+<head>
+
+</head>
+
+<style>
+    .container {
+
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #heading {
+
+        text-align: center;
+        font-family: cursive;
+    }
+
+    .dropdown {
+
+        width: 180px;
+        border: 2px dashed tomato;
+        padding: 2px;
+        margin: 10px;
+        cursor: pointer;
+
+    }
+</style>
+
+<body>
+    <h2 id="heading">Select the Dropdown button </h2>
+    <br><br>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
+    <div class="container">
+        <div class="country">
+            <b>Select country:</b><select name="country" id="cnt" onchange="change_other_elements(this.value)"
+                class="dropdown">
+                <option value="none" selected="selected">Select the Country </option>
+                <option value="india">India</option>
+                <option value="us">US</option>
+
+
+            </select>
+        </div>
+
+        <br><br>
+        <div class="state">
+            <b>Select State:</b><select name="state" id="state" onchange="change_district(this.value)" class="dropdown">
+                <option value="none" selected="selected">Select the State</option>
+            </select>
+        </div>
+        <br><br>
+        <div class="district">
+            <b>Select district:</b><select name="district" id="district" class="dropdown">
+                <option value="none" selected="selected">Select the district</option>
+            </select>
+        </div><br>
+    </div>
+</body>
+
+<script>
+
+    var states_district = {
+        'india': {
+            "andhra": ['praksam', 'nellore'],
+            "telegana": ['hyderabad', 'manikonda'],
+            "kerala": ['kochi', 'tiruvunathapuram']
+        },
+
+        'us': {
+            "mexico": ['united states', 'mexicon district'],
+            "albert": ['albert distrcit'],
+        }
+    }
+
+
+
+
+    function change_other_elements(country) {
+        if (country === "none") {
+            document.getElementById('district').options.length = 0;
+            document.getElementById('state').options.length = 0;
+            let state_select = document.getElementById('state');
+            let district_select = document.getElementById('district');
+            var option = document.createElement("option");
+            option.value = "none"
+            option.text = "select the country please"
+            state_select.appendChild(option);
+            var option = document.createElement("option");
+            option.value = "none"
+            option.text = "select the state please"
+            district_select.appendChild(option);
+
+        }
+        else {
+            document.getElementById('district').options.length = 0;
+            document.getElementById('state').options.length = 0;
+            let states = Object.keys(states_district[country]);
+            let select = document.getElementById('state');
+            for (let i = 0; i < states.length; i++) {
+                var option = document.createElement("option");
+                option.value = states[i];
+                option.text = states[i];
+                select.appendChild(option);
+            }
+            let all_districts = [];
+            for (let i = 0; i < states.length; i++) {
+                districts = states_district[country][states[i]];
+                for (let j = 0; j < districts.length; j++) {
+                    all_districts.push(districts[j]);
+                }
+            }
+            let distrcit_select = document.getElementById('district');
+            for (let i = 0; i < all_districts.length; i++) {
+                var option = document.createElement("option");
+                option.value = all_districts[i];
+                option.text = all_districts[i];
+                distrcit_select.appendChild(option);
+            }
+        }
+    }
+
+    function change_district(state) {
+        let country = document.getElementById('cnt').value;
+        document.getElementById('district').options.length = 0;
+        districts = states_district[country][state];
+        let distrcit_select = document.getElementById('district');
+        for (let i = 0; i < districts.length; i++) {
+            var option = document.createElement("option");
+            option.value = districts[i];
+            option.text = districts[i];
+            distrcit_select.appendChild(option);
+        }
+
+    }
+
+
+
+</script>
+
+</html>
